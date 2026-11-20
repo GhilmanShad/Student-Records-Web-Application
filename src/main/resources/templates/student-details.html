@@ -21,6 +21,12 @@
         <dd th:text="${#numbers.formatDecimal(student.cgpa, 1, 2)}"></dd>
     </dl>
 
+    <form th:if="${student != null}"
+         method="post"
+         th:action="@{/students/{regNo}/delete(regNo=${student.regNo})}">
+         <button type="submit">Delete student</button>
+    </form>
+
     <p th:if="${student == null}">
         Student <span th:text="${regNo}"></span> was not found.
     </p>

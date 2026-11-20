@@ -82,6 +82,16 @@ public class StudentController {
         return "redirect:/students";
     }
 
-
+    @PostMapping("/students/{regNo}/delete")
+    public String deleteStudent(@PathVariable("regNo") String regNo, Model model) {
+        try {
+        service.deleteStudent(regNo);
+        }
+        catch (IllegalArgumentException ex) {
+            model.addAttribute("regNo", regNo);
+            return "student-details";
+        }
+        return "redirect:/students";
+    }
 
 }
