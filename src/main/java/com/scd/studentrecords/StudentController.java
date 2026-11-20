@@ -1,5 +1,6 @@
 package com.scd.studentrecords;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,5 +22,14 @@ public class StudentController {
         model.addAttribute("name", name);
         return "students";
     }
+@GetMapping("/students/{regNo}")
+public String studentDetails(@PathVariable("regNo") String regNo, Model model) {
+    Student student = service.getStudentByRegNo(regNo);
+    model.addAttribute("student", student);
+    model.addAttribute("regNo", regNo);
+    return "student-details";
+}
+
+
 }
 

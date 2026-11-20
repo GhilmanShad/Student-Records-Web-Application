@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Details</title>
+</head>
+<body>
+    <h1>Student Details</h1>
+
+    <dl th:if="${student != null}">
+        <dt>Registration number</dt>
+        <dd th:text="${student.regNo}"></dd>
+
+        <dt>Name</dt>
+        <dd th:text="${student.name}"></dd>
+
+        <dt>Department</dt>
+        <dd th:text="${student.department}"></dd>
+
+        <dt>CGPA</dt>
+        <dd th:text="${#numbers.formatDecimal(student.cgpa, 1, 2)}"></dd>
+    </dl>
+
+    <p th:if="${student == null}">
+        Student <span th:text="${regNo}"></span> was not found.
+    </p>
+
+    <a th:href="@{/students}">Back to student list</a>
+</body>
+</html>
