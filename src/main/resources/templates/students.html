@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Records</title>
+</head>
+<body>
+    <h1>Student Records</h1>
+
+    <form method="get" th:action="@{/students}">
+        <label for="name">Search by name</label>
+        <input id="name" name="name" type="search" th:value="${name}">
+        <button type="submit">Search</button>
+        <a th:href="@{/students}">Show all</a>
+    </form>
+
+    <p th:if="${students.isEmpty()}">No students found.</p>
+
+    <table th:unless="${students.isEmpty()}">
+        <thead>
+            <tr>
+                <th>Registration number</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>CGPA</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.regNo}"></td>
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.department}"></td>
+                <td th:text="${#numbers.formatDecimal(student.cgpa, 1, 2)}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
