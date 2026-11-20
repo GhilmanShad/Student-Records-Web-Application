@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student</title>
+</head>
+<body>
+    <h1>Add Student</h1>
+
+    <p th:if="${error}" th:text="${error}" role="alert"></p>
+
+    <form method="post" th:action="@{/students}" th:object="${student}">
+        <p>
+            <label for="regNo">Registration number</label>
+            <input type="text" th:field="*{regNo}" maxlength="20" required>
+        </p>
+        <p>
+            <label for="name">Name</label>
+            <input type="text" th:field="*{name}" maxlength="100" required>
+        </p>
+        <p>
+            <label for="department">Department</label>
+            <input type="text" th:field="*{department}" maxlength="50" required>
+        </p>
+        <p>
+            <label for="cgpa">CGPA</label>
+            <input type="number" th:field="*{cgpa}" step="0.01" required>
+        </p>
+
+        <button type="submit">Save student</button>
+        <a th:href="@{/students}">Back to student list</a>
+    </form>
+</body>
+</html>
