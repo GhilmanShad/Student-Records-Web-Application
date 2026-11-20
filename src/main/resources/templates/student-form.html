@@ -2,17 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Student</title>
+    <title th:text="${editing == true ? 'Edit Student' : 'Add Student'}">Add Student</title>
 </head>
 <body>
-    <h1>Add Student</h1>
+    <h1 th:text="${editing == true ? 'Edit Student' : 'Add Student'}">Add Student</h1>
 
     <p th:if="${error}" th:text="${error}" role="alert"></p>
 
-    <form method="post" th:action="@{/students}" th:object="${student}">
+    <form method="post" th:object="${student}" th:action="${editing == true} ? @{/students/{regNo}/update(regNo=${student.regNo})} : @{/students}">
         <p>
             <label for="regNo">Registration number</label>
-            <input type="text" th:field="*{regNo}" maxlength="20" required>
+            <input type="text" th:field="*{regNo}" maxlength="20" th:readonly="${editing == true}" required>
         </p>
         <p>
             <label for="name">Name</label>

@@ -24,33 +24,64 @@ public class StudentController {
 
     @GetMapping("/students/{regNo}")
     public String studentDetails(@PathVariable("regNo") String regNo, Model model) {
-    Student student = service.getStudentByRegNo(regNo);
-    model.addAttribute("student", student);
-    model.addAttribute("regNo", regNo);
-    return "student-details";
+        Student student = service.getStudentByRegNo(regNo);
+        model.addAttribute("student", student);
+        model.addAttribute("regNo", regNo);
+        return "student-details";
     }
 
     @GetMapping("/students/new")
     public String newStudentForm(Model model) {
-    model.addAttribute("student", new Student());
-    return "student-form";
+        model.addAttribute("student", new Student());
+        return "student-form";
     }
 
     @PostMapping("/students")
     public String addStudent(@RequestParam("regNo") String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam("cgpa") Double cgpa, Model model) {
 
-    Student student = new Student(0, regNo.strip(), name.strip(), department.strip(), cgpa);
+        Student student = new Student(0, regNo.strip(), name.strip(), department.strip(), cgpa);
 
-    try {
-        service.addStudent(student);
+        try {
+            service.addStudent(student);
+        }
+        catch (IllegalArgumentException ex) {
+            model.addAttribute("student", student);
+            model.addAttribute("error", ex.getMessage());
+            return "student-form";
+        }
+        return "redirect:/students";
     }
-    catch (IllegalArgumentException ex) {
+
+    @GetMapping("/students/{regNo}/edit")
+    public String editStudentForm(@PathVariable("regNo") String regNo, Model model) {
+        Student student = service.getStudentByRegNo(regNo);
         model.addAttribute("student", student);
-        model.addAttribute("error", ex.getMessage());
+
+        if (student == null) {
+            model.addAttribute("regNo", regNo);
+            return "student-details";
+        }
+
+        model.addAttribute("editing", true);
         return "student-form";
     }
 
-    return "redirect:/students";
-    }
-}
+    @PostMapping("/students/{regNo}/update")
+    public String updateStudent(@PathVariable("regNo") String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam("cgpa") Double cgpa, Model model) {
+	Student student = new Student(0, regNo, name.strip(), department.strip(), cgpa);
 
+    	try {
+            service.updateStudent(student);
+    	}
+	catch (IllegalArgumentException ex) {
+            model.addAttribute("student", student);
+            model.addAttribute("editing", true);
+            model.addAttribute("error", ex.getMessage());
+            return "student-form";
+        }
+        return "redirect:/students";
+    }
+
+
+
+}
