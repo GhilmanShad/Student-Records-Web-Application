@@ -7,7 +7,25 @@
   <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
 <body>
-  <header><div class="bar"><a class="brand" th:href="@{/students}"><span class="mark" aria-hidden="true">R</span>Faculty Register</a><span class="staff">Academic records</span></div></header>
+<header>
+    <div class="bar">
+        <a class="brand" th:href="@{/students}">
+            <span class="mark" aria-hidden="true">R</span>
+            Faculty Register
+        </a>
+
+        <div class="header-actions">
+            <span class="staff">Academic records</span>
+
+            <form th:action="@{/logout}" method="post"
+                  class="logout-form">
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
   <main>
     <section class="hero">
       <h1>Faculty Workspace</h1>
