@@ -15,6 +15,14 @@ public class StudentController {
         this.service = service;
     }
 
+    private Double parseCgpa(String value) {
+        try {
+            return value == null ? null : Double.valueOf(value);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
     @GetMapping("/students")
     public String listStudents(@RequestParam(name = "name", required = false) String name, Model model) {
         model.addAttribute("students", service.listStudents(name));
@@ -37,9 +45,9 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public String addStudent(@RequestParam("regNo") String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam("cgpa") Double cgpa, Model model) {
+    public String addStudent(@RequestParam("regNo") String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam(value = "cgpa", required = false) String cgpa, Model model) {
 
-        Student student = new Student(0, regNo.strip(), name.strip(), department.strip(), cgpa);
+        Student student = new Student(0, regNo.strip(), name.strip(), department.strip(), parseCgpa(cgpa));
 
         try {
             service.addStudent(student);
@@ -62,19 +70,21 @@ public class StudentController {
             return "student-details";
         }
 
+        model.addAttribute("originalRegNo", regNo);
         model.addAttribute("editing", true);
         return "student-form";
     }
 
     @PostMapping("/students/{regNo}/update")
-    public String updateStudent(@PathVariable("regNo") String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam("cgpa") Double cgpa, Model model) {
-	Student student = new Student(0, regNo, name.strip(), department.strip(), cgpa);
+    public String updateStudent(@PathVariable("regNo") String originalRegNo, @RequestParam(value = "regNo", required = false) String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam(value = "cgpa", required = false) String cgpa, Model model) {
+        Student student = new Student(0, regNo == null ? "" : regNo.strip(), name.strip(), department.strip(), parseCgpa(cgpa));
 
     	try {
-            service.updateStudent(student);
+            service.updateStudent(originalRegNo, student);
     	}
 	catch (IllegalArgumentException ex) {
             model.addAttribute("student", student);
+            model.addAttribute("originalRegNo", originalRegNo);
             model.addAttribute("editing", true);
             model.addAttribute("error", ex.getMessage());
             return "student-form";

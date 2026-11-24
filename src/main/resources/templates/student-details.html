@@ -1,36 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Student Details</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student details · Faculty register</title>
+  <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
 <body>
-    <h1>Student Details</h1>
-
-    <dl th:if="${student != null}">
-        <dt>Registration number</dt>
-        <dd th:text="${student.regNo}"></dd>
-
-        <dt>Name</dt>
-        <dd th:text="${student.name}"></dd>
-
-        <dt>Department</dt>
-        <dd th:text="${student.department}"></dd>
-
-        <dt>CGPA</dt>
-        <dd th:text="${#numbers.formatDecimal(student.cgpa, 1, 2)}"></dd>
-    </dl>
-
-    <form th:if="${student != null}"
-         method="post"
-         th:action="@{/students/{regNo}/delete(regNo=${student.regNo})}">
-         <button type="submit">Delete student</button>
-    </form>
-
-    <p th:if="${student == null}">
-        Student <span th:text="${regNo}"></span> was not found.
-    </p>
-
-    <a th:href="@{/students}">Back to student list</a>
+  <header><div class="bar"><a class="brand" th:href="@{/students}"><span class="mark" aria-hidden="true">R</span>Faculty register</a><span class="staff">Academic records</span></div></header>
+  <main>
+    <a class="back" th:href="@{/students}">← Student directory</a>
+    <section class="panel sheet" th:if="${student != null}">
+      <p class="overline">Student profile</p><h1 th:text="${student.name}"></h1>
+      <dl><dt>Registration number</dt><dd class="code" th:text="${student.regNo}"></dd>
+        <dt>Department</dt><dd th:text="${student.department}"></dd>
+        <dt>CGPA</dt><dd th:text="${#numbers.formatDecimal(student.cgpa,1,2)}"></dd></dl>
+    </section>
+    <section class="panel sheet" th:if="${student == null}"><h1>Student not found</h1>
+      <p>Student <strong th:text="${regNo}"></strong> was not found.</p></section>
+  </main>
 </body>
 </html>

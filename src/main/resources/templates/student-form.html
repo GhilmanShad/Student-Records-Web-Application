@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="${editing == true ? 'Edit Student' : 'Add Student'}">Add Student</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student form · Faculty register</title>
+  <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
 <body>
-    <h1 th:text="${editing == true ? 'Edit Student' : 'Add Student'}">Add Student</h1>
-
-    <p th:if="${error}" th:text="${error}" role="alert"></p>
-
-    <form method="post" th:object="${student}" th:action="${editing == true} ? @{/students/{regNo}/update(regNo=${student.regNo})} : @{/students}">
-        <p>
-            <label for="regNo">Registration number</label>
-            <input type="text" th:field="*{regNo}" maxlength="20" th:readonly="${editing == true}" required>
-        </p>
-        <p>
-            <label for="name">Name</label>
-            <input type="text" th:field="*{name}" maxlength="100" required>
-        </p>
-        <p>
-            <label for="department">Department</label>
-            <input type="text" th:field="*{department}" maxlength="50" required>
-        </p>
-        <p>
-            <label for="cgpa">CGPA</label>
-            <input type="number" th:field="*{cgpa}" step="0.01" required>
-        </p>
-
-        <button type="submit">Save student</button>
-        <a th:href="@{/students}">Back to student list</a>
-    </form>
+  <header><div class="bar"><a class="brand" th:href="@{/students}"><span class="mark" aria-hidden="true">R</span>Faculty register</a><span class="staff">Academic records</span></div></header>
+  <main>
+    <a class="back" th:href="@{/students}">← Student directory</a>
+    <section class="panel sheet"><p class="overline">Student records</p>
+      <h1 th:text="${editing == true ? 'Edit student' : 'Add student'}"></h1>
+      <p class="error" role="alert" th:if="${error}" th:text="${error}"></p>
+      <form th:object="${student}" method="post" th:action="${editing == true} ? @{/students/{r}/update(r=${originalRegNo})} : @{/students}">
+        <div class="fields">
+          <div><label for="regNo">Registration number</label><input th:field="*{regNo}" maxlength="20" pattern="[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*" title="Letters, numbers and separating hyphens only" required></div>
+          <div><label for="name">Full name</label><input th:field="*{name}" maxlength="100" pattern="[A-Za-z]+(?: +[A-Za-z]+)*" title="Letters and spaces only" required></div>
+          <div><label for="department">Department</label><select th:field="*{department}" required><option value="" disabled hidden>Select department</option><option value="SE">SE</option><option value="CS">CS</option><option value="AI">AI</option><option value="DS">DS</option><option value="CY">CY</option><option value="CE">CE</option></select></div>
+          <div><label for="cgpa">CGPA</label><input th:field="*{cgpa}" type="number" min="0" max="4" step="0.01" required></div>
+        </div>
+        <div class="foot"><button type="submit" th:text="${editing == true ? 'Save changes' : 'Add student'}"></button>
+          <a th:href="@{/students}">Cancel</a></div></form>
+      <details th:if="${editing == true}">
+        <summary>Delete record</summary>
+        <p>Delete the student record with registration number <strong th:text="${originalRegNo}"></strong> permanently?</p>
+        <form method="post" th:action="@{/students/{r}/delete(r=${originalRegNo})}" onsubmit="return confirm('Permanently delete this student record?');">
+          <button type="submit" class="danger">Delete student</button>
+        </form>
+      </details>
+    </section>
+  </main>
 </body>
 </html>

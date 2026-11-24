@@ -1,38 +1,93 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Student Records</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student directory · Faculty Register</title>
+  <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
 <body>
-    <h1>Student Records</h1>
+  <header><div class="bar"><a class="brand" th:href="@{/students}"><span class="mark" aria-hidden="true">R</span>Faculty Register</a><span class="staff">Academic records</span></div></header>
+  <main>
+    <section class="hero">
+      <h1>Faculty Workspace</h1>
+    </section>
+    <section class="panel" aria-labelledby="records">
+      <div class="toolbar">
+        <div class="records-heading">
+          <h2 id="records">Student Records <span class="count" th:text="${students.size()}"></span></h2>
+          <a class="button gold" th:href="@{/students/new}"><span aria-hidden="true">＋</span> Add Student</a>
+        </div>
+        <form class="search" method="get" th:action="@{/students}">
+          <label class="sr" for="name">Search by student name</label>
+          <input id="name" name="name" type="search" placeholder="Search by name…" th:value="${name}">
+          <button type="submit">Search</button>
+          <a class="clear-search" th:hidden="${#strings.isEmpty(name)}" th:href="@{/students}">Clear</a>
+        </form>
+      </div>
+      <div id="results">
+        <div class="scroll" th:unless="${students.isEmpty()}">
+          <table>
+            <thead><tr><th>Student name</th><th>Registration number</th><th>Department</th><th>CGPA</th><th>Actions</th></tr></thead>
+            <tbody><tr th:each="student : ${students}">
+              <td class="person"><a th:href="@{/students/{r}(r=${student.regNo})}" th:text="${student.name}"></a></td>
+              <td class="code" th:text="${student.regNo}"></td>
+              <td><span class="dept" th:text="${student.department}"></span></td>
+              <td class="score" th:text="${#numbers.formatDecimal(student.cgpa,1,2)}"></td>
+              <td><div class="actions">
+                <a th:href="@{/students/{r}/edit(r=${student.regNo})}">Edit</a></div></td>
+            </tr></tbody>
+          </table>
+        </div>
+        <p class="empty" th:if="${students.isEmpty()}">No students found.</p>
+      </div>
+      <p id="search-status" class="sr" role="status"></p>
+    </section>
+  </main>
+  <script>
+    const form = document.querySelector('.search');
+    const field = form.elements.name;
+    const clear = form.querySelector('.clear-search');
+    const status = document.querySelector('#search-status');
+    let pending;
+    let timer;
 
-    <form method="get" th:action="@{/students}">
-        <label for="name">Search by name</label>
-        <input id="name" name="name" type="search" th:value="${name}">
-        <button type="submit">Search</button>
-        <a th:href="@{/students}">Show all</a>
-    </form>
+    async function refresh() {
+      const request = new AbortController();
+      pending = request;
+      const url = new URL(form.action);
+      if (field.value) url.searchParams.set('name', field.value);
+      try {
+        const response = await fetch(url, {signal: request.signal});
+        if (!response.ok) throw new Error('Search failed');
+        const page = new DOMParser().parseFromString(await response.text(), 'text/html');
+        if (request.signal.aborted) return;
+        const results = page.querySelector('#results');
+        const count = page.querySelector('#records .count').textContent;
+        document.querySelector('#results').replaceChildren(...results.childNodes);
+        document.querySelector('#records .count').textContent = count;
+        status.className = 'sr';
+        status.textContent = count + ' students found.';
+        history.replaceState(null, '', url);
+      } catch (error) {
+        if (request.signal.aborted) return;
+        status.className = 'empty';
+        status.textContent = 'Could not refresh the list. Press Search to retry.';
+      }
+    }
 
-    <p th:if="${students.isEmpty()}">No students found.</p>
-
-    <table th:unless="${students.isEmpty()}">
-        <thead>
-            <tr>
-                <th>Registration number</th>
-                <th>Name</th>
-                <th>Department</th>
-                <th>CGPA</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="student : ${students}">
-                <td th:text="${student.regNo}"></td>
-                <td th:text="${student.name}"></td>
-                <td th:text="${student.department}"></td>
-                <td th:text="${#numbers.formatDecimal(student.cgpa, 1, 2)}"></td>
-            </tr>
-        </tbody>
-    </table>
+    field.addEventListener('input', () => {
+      pending?.abort();
+      clearTimeout(timer);
+      clear.hidden = !field.value;
+      timer = setTimeout(refresh, 150);
+    });
+    clear.addEventListener('click', event => {
+      event.preventDefault();
+      field.value = '';
+      field.dispatchEvent(new Event('input'));
+      field.focus();
+    });
+  </script>
 </body>
 </html>

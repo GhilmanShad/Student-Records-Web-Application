@@ -21,10 +21,10 @@ public class StudentRepository {
             rs.getDouble("cgpa"));
 
     public List<Student> findAll() {
-        return jdbc.query("SELECT * FROM students ORDER BY name", studentRowMapper);
+        return jdbc.query("SELECT * FROM students ORDER BY name ASC", studentRowMapper);
     }
     public List<Student> searchByName(String name) {
-        String sql = "SELECT * FROM students WHERE LOWER(name) LIKE LOWER(?) ORDER BY name";
+        String sql = "SELECT * FROM students WHERE LOWER(name) LIKE LOWER(?) ORDER BY name ASC";
         String pattern = "%" + name + "%";
         return jdbc.query(sql, studentRowMapper, pattern);
     }
@@ -48,8 +48,12 @@ public class StudentRepository {
         return jdbc.update(sql, s.getRegNo(), s.getName(), s.getDepartment(), s.getCgpa());
     }
     public int update(Student s) {
-        String sql = "UPDATE students SET name = ?, department = ?, cgpa = ? WHERE reg_no = ?";
-        return jdbc.update(sql, s.getName(), s.getDepartment(), s.getCgpa(), s.getRegNo());
+        return update(s.getRegNo(), s);
+    }
+
+    public int update(String originalRegNo, Student s) {
+        String sql = "UPDATE students SET reg_no = ?, name = ?, department = ?, cgpa = ? WHERE reg_no = ?";
+        return jdbc.update(sql, s.getRegNo(), s.getName(), s.getDepartment(), s.getCgpa(), originalRegNo);
     }
     public int deleteByRegNo(String regNo) {
         String sql = "DELETE FROM students WHERE reg_no = ?";
