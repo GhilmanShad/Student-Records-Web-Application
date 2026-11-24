@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | Student Records</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-card">
+
+        <h1>Student Records</h1>
+        <p class="subtitle">Sign in to your account</p>
+
+        <div class="error-message" th:if="${param.error}">
+            Invalid username or password.
+        </div>
+
+        <div class="success-message" th:if="${param.logout}">
+            You have been logged out successfully.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+
+            <label for="username">Username</label>
+            <input type="text"
+                   id="username"
+                   name="username"
+                   placeholder="Enter your username"
+                   autocomplete="username"
+                   required>
+
+            <label for="password">Password</label>
+            <input type="password"
+                   id="password"
+                   name="password"
+                   placeholder="Enter your password"
+                   autocomplete="current-password"
+                   required>
+
+            <button type="submit">Login</button>
+
+        </form>
+
+        <p class="footer">
+            Student Records Management System
+        </p>
+
+    </div>
+</div>
+
+</body>
+</html>

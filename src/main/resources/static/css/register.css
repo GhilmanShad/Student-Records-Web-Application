@@ -78,3 +78,35 @@ summary { color: #933d33; cursor: pointer; }
   flex-wrap: wrap;
   gap: 12px 20px;
 }
+
+.logout-form {
+    display: inline-flex;
+    margin-left: 16px;
+}
+
+.logout-btn {
+    background: #1b3d35;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background: #2c554a;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.header-actions .logout-form {
+    margin: 0;
+}
