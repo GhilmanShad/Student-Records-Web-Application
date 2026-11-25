@@ -12,11 +12,11 @@ public class StudentService {
         this.repository = repository;
     }
 
-    public List<Student> listStudents(String name) {
-        if (name == null || name.isBlank()) {
+    public List<Student> listStudents(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
             return repository.findAll();
         }
-        return repository.searchByName(name.strip());
+        return repository.searchStudents(keyword.strip());
     }
     public Student getStudentByRegNo(String regNo) {
         return repository.findByRegNo(regNo);

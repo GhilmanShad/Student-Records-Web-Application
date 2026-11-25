@@ -24,9 +24,9 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public String listStudents(@RequestParam(name = "name", required = false) String name, Model model) {
-        model.addAttribute("students", service.listStudents(name));
-        model.addAttribute("name", name);
+    public String listStudents(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
+        model.addAttribute("students", service.listStudents(keyword));
+        model.addAttribute("keyword", keyword);
         return "students";
     }
 
