@@ -29,13 +29,31 @@ public class SecurityConfig {
 
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/login").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers(
+                    "/css/**",
+                    "/login",
+                    "/register"
+                ).permitAll()
+                .requestMatchers("/account").authenticated()
+                .anyRequest().hasRole("ADMIN")
             )
-            .formLogin(login -> login
+            .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/students", true)
+                .successHandler((request, response, authentication) -> {
+
+                    boolean isAdmin = authentication
+                        .getAuthorities()
+                        .stream()
+                        .anyMatch(authority ->
+                            authority.getAuthority().equals("ROLE_ADMIN")
+                        );
+
+                    response.sendRedirect(
+                        request.getContextPath()
+                        + (isAdmin ? "/students" : "/account")
+                    );
+                })
                 .failureUrl("/login?error")
                 .permitAll()
             )

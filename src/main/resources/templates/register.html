@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register | Faculty Register</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+
+<main class="login-container">
+    <div class="login-card">
+
+        <div class="portal-brand">
+            <div class="brand-name">Faculty</div>
+            <div class="brand-subtitle">Academic Portal</div>
+        </div>
+
+        <h1>Create Account</h1>
+
+        <div class="error-message"
+             th:if="${error}"
+             th:text="${error}">
+        </div>
+
+        <form th:action="@{/register}" method="post">
+
+            <label for="username">Username</label>
+
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
+                    </svg>
+                </span>
+
+                <input type="text"
+                       id="username"
+                       name="username"
+                       th:value="${username}"
+                       placeholder="Enter username"
+                       minlength="3"
+                       maxlength="30"
+                       pattern="[a-zA-Z0-9_]{3,30}"
+                       autocomplete="username"
+                       required>
+            </div>
+
+            <small class="field-hint">
+                3-30 letters, numbers or underscores.
+            </small>
+
+            <label for="password">Password</label>
+
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.5">
+                        <rect x="5" y="10" width="14" height="11" rx="1"/>
+                        <path d="M8 10V6a4 4 0 0 1 8 0v4"/>
+                    </svg>
+                </span>
+
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Enter password"
+                       minlength="8"
+                       pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}"
+                       autocomplete="new-password"
+                       required>
+            </div>
+
+            <small class="field-hint">
+                Minimum 8 characters with uppercase,
+                lowercase and a number.
+            </small>
+
+            <label for="confirmPassword">Confirm Password</label>
+
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.5">
+                        <rect x="5" y="10" width="14" height="11" rx="1"/>
+                        <path d="M8 10V6a4 4 0 0 1 8 0v4"/>
+                    </svg>
+                </span>
+
+                <input type="password"
+                       id="confirmPassword"
+                       name="confirmPassword"
+                       placeholder="Confirm password"
+                       autocomplete="new-password"
+                       required>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Create Account</button>
+            </div>
+
+        </form>
+
+        <p class="registration-link">
+            Already have an account?
+            <a th:href="@{/login}">Sign In</a>
+        </p>
+
+        <p class="footer">
+            Student Records Management System
+        </p>
+
+    </div>
+</main>
+
+</body>
+</html>
