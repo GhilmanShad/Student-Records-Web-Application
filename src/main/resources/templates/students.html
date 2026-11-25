@@ -30,6 +30,12 @@
     <section class="hero">
       <h1>Faculty Workspace</h1>
     </section>
+    <div class="success-notification"
+         role="status"
+         th:if="${success}"
+         th:text="${success}">
+    </div>
+
     <section class="panel" aria-labelledby="records">
       <div class="toolbar">
         <div class="records-heading">
