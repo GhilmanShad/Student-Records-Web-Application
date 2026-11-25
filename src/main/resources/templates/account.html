@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | Faculty Register</title>
+    <link rel="stylesheet" th:href="@{/css/registration.css}">
+</head>
+<body>
+
+<div class="registration-container">
+    <div class="registration-card">
+
+        <div class="brand">Faculty Register</div>
+
+        <h1>Welcome, <span th:text="${username}">User</span>!</h1>
+
+        <p class="subtitle">
+            You have successfully logged into your account.
+        </p>
+
+        <div class="account-info">
+            <p><strong>Username:</strong>
+                <span th:text="${username}"></span>
+            </p>
+
+            <p><strong>Role:</strong> Standard User</p>
+
+            <p><strong>Account Status:</strong> Active</p>
+        </div>
+
+        <p class="subtitle">
+            Student records are restricted to authorized administrators.
+        </p>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="register-btn">
+                Logout
+            </button>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -4,100 +4,188 @@
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f1f5f9;
-    color: #1e293b;
+    background: #ffffff;
+    color: #20202b;
+    font-family: Georgia, "Times New Roman", serif;
 }
 
 .login-container {
     min-height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 20px;
+    justify-content: center;
+    padding: 40px 24px;
 }
 
 .login-card {
     width: 100%;
-    max-width: 420px;
-    background: white;
-    padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    max-width: 380px;
+}
+
+.portal-brand {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.brand-name {
+    font-size: 76px;
+    font-weight: bold;
+    letter-spacing: -4px;
+    line-height: 1;
+    color: #00a9df;
+}
+
+.brand-subtitle {
+    font-size: 23px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #102c72;
+    border-top: 2px solid #102c72;
+    margin-top: 8px;
+    padding-top: 5px;
 }
 
 h1 {
+    font-size: 34px;
+    font-weight: normal;
     text-align: center;
-    margin: 0 0 10px;
-    font-size: 28px;
-}
-
-.subtitle {
-    text-align: center;
-    color: #64748b;
-    margin-bottom: 30px;
+    margin: 0 0 24px;
 }
 
 label {
     display: block;
-    font-weight: 600;
+    font-size: 19px;
     margin-bottom: 8px;
+}
+
+.input-group {
+    display: flex;
+    height: 46px;
+    border: 1px solid #e1e3ed;
+    background: #fcfcfd;
+    margin-bottom: 12px;
+}
+
+.input-icon {
+    width: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f2f7;
+    border-right: 1px solid #e1e3ed;
+    color: #969bb7;
+}
+
+.input-icon svg {
+    width: 20px;
+    height: 20px;
 }
 
 input {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 15px;
+    min-width: 0;
+    padding: 12px 18px;
+    border: none;
     outline: none;
+    background: transparent;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    color: #252536;
 }
 
-input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+input::placeholder {
+    color: #969bad;
+}
+
+.input-group:focus-within {
+    border-color: #5c60d8;
+    box-shadow: 0 0 0 2px rgba(92, 96, 216, 0.08);
+}
+
+.field-hint {
+    display: block;
+    font-size: 14px;
+    color: #7b8197;
+    margin-bottom: 22px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
 }
 
 button {
-    width: 100%;
-    padding: 12px;
-    background: #2563eb;
-    color: white;
+    min-width: 145px;
+    padding: 14px 32px;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 600;
+    border-radius: 30px;
+    background: #5b5ed6;
+    color: white;
+    font-family: Georgia, serif;
+    font-size: 17px;
     cursor: pointer;
+    box-shadow: 0 5px 18px rgba(91, 94, 214, 0.25);
     transition: background 0.2s;
 }
 
 button:hover {
-    background: #1d4ed8;
+    background: #484bc2;
 }
 
-.error-message {
-    padding: 12px;
-    margin-bottom: 20px;
-    background: #fee2e2;
-    color: #b91c1c;
-    border-radius: 6px;
-    font-size: 14px;
+.registration-link {
+    text-align: center;
+    font-size: 15px;
+    margin-top: 30px;
+    color: #646779;
 }
 
+.registration-link a {
+    color: #5155d1;
+    text-decoration: none;
+}
+
+.registration-link a:hover {
+    text-decoration: underline;
+}
+
+.error-message,
 .success-message {
     padding: 12px;
     margin-bottom: 20px;
-    background: #dcfce7;
-    color: #166534;
-    border-radius: 6px;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
     font-size: 14px;
 }
 
+.error-message {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.success-message {
+    background: #dcfce7;
+    color: #166534;
+}
+
 .footer {
-    margin-top: 25px;
-    margin-bottom: 0;
     text-align: center;
-    color: #64748b;
-    font-size: 13px;
+    color: #9295a5;
+    font-size: 12px;
+    margin-top: 35px;
+}
+
+@media (max-width: 480px) {
+    .brand-name {
+        font-size: 60px;
+    }
+
+    .brand-subtitle {
+        font-size: 19px;
+    }
+
+    .portal-brand {
+        margin-bottom: 40px;
+    }
 }

@@ -36,4 +36,25 @@ public class UserRepository {
              new UsernameNotFoundException("User not found")
          );
     }
+
+    public boolean existsByUsername(String username) {
+
+        Integer count = jdbcTemplate.queryForObject(
+            "SELECT COUNT(*) FROM users WHERE username = ?",
+            Integer.class,
+            username
+        );
+
+        return count != null && count > 0;
+    }
+
+    public void registerUser(String username, String encodedPassword) {
+
+        String sql = """
+            INSERT INTO users (username, password, role, enabled)
+            VALUES (?, ?, 'USER', TRUE)
+            """;
+
+        jdbcTemplate.update(sql, username, encodedPassword);
+    }
 }
