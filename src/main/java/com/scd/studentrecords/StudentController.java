@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,12 +46,13 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public String addStudent(@RequestParam("regNo") String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam(value = "cgpa", required = false) String cgpa, Model model) {
+    public String addStudent(@RequestParam("regNo") String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam(value = "cgpa", required = false) String cgpa, Model model, RedirectAttributes redirectAttributes) {
 
         Student student = new Student(0, regNo.strip(), name.strip(), department.strip(), parseCgpa(cgpa));
 
         try {
             service.addStudent(student);
+            redirectAttributes.addFlashAttribute("success", "Student added successfully.");
         }
         catch (IllegalArgumentException ex) {
             model.addAttribute("student", student);
@@ -76,11 +78,12 @@ public class StudentController {
     }
 
     @PostMapping("/students/{regNo}/update")
-    public String updateStudent(@PathVariable("regNo") String originalRegNo, @RequestParam(value = "regNo", required = false) String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam(value = "cgpa", required = false) String cgpa, Model model) {
+    public String updateStudent(@PathVariable("regNo") String originalRegNo, @RequestParam(value = "regNo", required = false) String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam(value = "cgpa", required = false) String cgpa, Model model, RedirectAttributes redirectAttributes) {
         Student student = new Student(0, regNo == null ? "" : regNo.strip(), name.strip(), department.strip(), parseCgpa(cgpa));
 
     	try {
             service.updateStudent(originalRegNo, student);
+            redirectAttributes.addFlashAttribute("success", "Student updated successfully.");
     	}
 	catch (IllegalArgumentException ex) {
             model.addAttribute("student", student);

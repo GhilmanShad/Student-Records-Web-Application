@@ -39,6 +39,12 @@ public class StudentService {
         if (cgpa == null || !Double.isFinite(cgpa) || cgpa < 0 || cgpa > 4) {
             throw new IllegalArgumentException("CGPA must be a number between 0 and 4.");
         }
+
+        if (java.math.BigDecimal.valueOf(cgpa)
+                .stripTrailingZeros().scale() > 2) {
+            throw new IllegalArgumentException(
+                "CGPA must have at most two decimal places.");
+        }
     }
     public void addStudent(Student student) {
         validateStudent(student);
@@ -47,7 +53,12 @@ public class StudentService {
             throw new IllegalArgumentException("Registration number already exists.");
         }
 
-        repository.insert(student);
+        try {
+            repository.insert(student);
+        } catch (DuplicateKeyException ex) {
+            throw new IllegalArgumentException(
+                "Registration number already exists.", ex);
+        }
     }
     public void updateStudent(Student student) {
         updateStudent(student.getRegNo(), student);
