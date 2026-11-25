@@ -37,10 +37,10 @@
           <a class="button gold" th:href="@{/students/new}"><span aria-hidden="true">＋</span> Add Student</a>
         </div>
         <form class="search" method="get" th:action="@{/students}">
-          <label class="sr" for="name">Search by student name</label>
-          <input id="name" name="name" type="search" placeholder="Search by name…" th:value="${name}">
+          <label class="sr" for="keyword">Search student records</label>
+          <input id="keyword" name="keyword" type="search" placeholder="Search by name, reg. no. or department…" th:value="${keyword}">
           <button type="submit">Search</button>
-          <a class="clear-search" th:hidden="${#strings.isEmpty(name)}" th:href="@{/students}">Clear</a>
+          <a class="clear-search" th:hidden="${#strings.isEmpty(keyword)}" th:href="@{/students}">Clear</a>
         </form>
       </div>
       <div id="results">
@@ -64,7 +64,7 @@
   </main>
   <script>
     const form = document.querySelector('.search');
-    const field = form.elements.name;
+    const field = form.elements.keyword;
     const clear = form.querySelector('.clear-search');
     const status = document.querySelector('#search-status');
     let pending;
@@ -74,7 +74,7 @@
       const request = new AbortController();
       pending = request;
       const url = new URL(form.action);
-      if (field.value) url.searchParams.set('name', field.value);
+      if (field.value) url.searchParams.set('keyword', field.value);
       try {
         const response = await fetch(url, {signal: request.signal});
         if (!response.ok) throw new Error('Search failed');

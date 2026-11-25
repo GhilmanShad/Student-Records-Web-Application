@@ -23,10 +23,23 @@ public class StudentRepository {
     public List<Student> findAll() {
         return jdbc.query("SELECT * FROM students ORDER BY name ASC", studentRowMapper);
     }
-    public List<Student> searchByName(String name) {
-        String sql = "SELECT * FROM students WHERE LOWER(name) LIKE LOWER(?) ORDER BY name ASC";
-        String pattern = "%" + name + "%";
-        return jdbc.query(sql, studentRowMapper, pattern);
+    public List<Student> searchStudents(String keyword) {
+        String sql = """
+            SELECT * FROM students
+            WHERE LOWER(name) LIKE LOWER(?) ESCAPE '!'
+               OR LOWER(reg_no) LIKE LOWER(?) ESCAPE '!'
+               OR LOWER(department) LIKE LOWER(?) ESCAPE '!'
+            ORDER BY name ASC
+            """;
+
+        String escaped = keyword.replace("!", "!!")
+                                .replace("%", "!%")
+                                .replace("_", "!_");
+
+        String pattern = "%" + escaped + "%";
+
+        return jdbc.query(sql, studentRowMapper,
+                          pattern, pattern, pattern);
     }
 
     public Student findByRegNo(String regNo) {
