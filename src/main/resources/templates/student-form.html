@@ -12,7 +12,7 @@
     <a class="back" th:href="@{/students}">← Student directory</a>
     <section class="panel sheet"><p class="overline">Student records</p>
       <h1 th:text="${editing == true ? 'Edit student' : 'Add student'}"></h1>
-      <p class="error" role="alert" th:if="${error}" th:text="${error}"></p>
+      <p class="error" role="alert" th:if="${error}" th:text="${error}" id="form-error"></p>
       <form th:object="${student}" method="post" th:action="${editing == true} ? @{/students/{r}/update(r=${originalRegNo})} : @{/students}">
         <div class="fields">
           <div><label for="regNo">Registration number</label><input th:field="*{regNo}" maxlength="20" pattern="[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*" title="Letters, numbers and separating hyphens only" required></div>
@@ -31,5 +31,14 @@
       </details>
     </section>
   </main>
+  <script>
+    const studentForm = document.querySelector(".sheet > form");
+    const formError = document.getElementById("form-error");
+    if (studentForm && formError) {
+      const clearStaleError = () => formError.remove();
+      studentForm.addEventListener("input", clearStaleError, { once: true });
+      studentForm.addEventListener("change", clearStaleError, { once: true });
+    }
+  </script>
 </body>
 </html>
