@@ -1,5 +1,7 @@
 package com.scd.studentrecords;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.stereotype.Controller;
@@ -77,7 +79,10 @@ public class StudentController {
         return "student-form";
     }
 
-    @PostMapping("/students/{regNo}/update")
+    @RequestMapping(
+    value = "/students/{regNo}/update",
+    method = {RequestMethod.POST, RequestMethod.PUT}
+)
     public String updateStudent(@PathVariable("regNo") String originalRegNo, @RequestParam(value = "regNo", required = false) String regNo, @RequestParam("name") String name, @RequestParam("department") String department, @RequestParam(value = "cgpa", required = false) String cgpa, Model model, RedirectAttributes redirectAttributes) {
         Student student = new Student(0, regNo == null ? "" : regNo.strip(), name.strip(), department.strip(), parseCgpa(cgpa));
 
@@ -95,7 +100,10 @@ public class StudentController {
         return "redirect:/students";
     }
 
-    @PostMapping("/students/{regNo}/delete")
+    @RequestMapping(
+    value = "/students/{regNo}/delete",
+    method = {RequestMethod.POST, RequestMethod.DELETE}
+)
     public String deleteStudent(
             @PathVariable("regNo") String regNo,
             RedirectAttributes redirectAttributes) {

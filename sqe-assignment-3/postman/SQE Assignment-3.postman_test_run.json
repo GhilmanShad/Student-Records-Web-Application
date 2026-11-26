@@ -1,0 +1,176 @@
+{
+	"id": "a858c863-5f74-4fa6-8e1d-6b7d7305839c",
+	"name": "SQE Assignment-3",
+	"timestamp": "2026-11-26T20:02:37.501Z",
+	"collection_id": "60446794-ba138a9d-1417-4f0b-bf20-33eef5d7b88b",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 9,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-11-26T20:02:36.681Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "8e00b22a-64d7-4f99-bcd4-f5f6a9e945e2",
+			"name": "PM-1 - Student Not Found",
+			"url": "http://localhost:8080/students?keyword=SQE-NO-MATCH-99999",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"PM-01: HTTP status is 200": true,
+				"PM-01: No matching student found": true,
+				"PM-01: Response is HTML": true
+			},
+			"testPassFailCounts": {
+				"PM-01: HTTP status is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"PM-01: No matching student found": {
+					"pass": 1,
+					"fail": 0
+				},
+				"PM-01: Response is HTML": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"PM-01: HTTP status is 200": true,
+					"PM-01: No matching student found": true,
+					"PM-01: Response is HTML": true
+				}
+			]
+		},
+		{
+			"id": "18b19b97-21a9-47df-aa12-ae703fad4d34",
+			"name": "PM-2 - Create Student",
+			"url": "http://localhost:8080/students",
+			"time": 19,
+			"responseCode": {
+				"code": 302,
+				"name": "Found"
+			},
+			"tests": {
+				"PM-02: HTTP status is 302": true,
+				"PM-02: Redirects to student records": true
+			},
+			"testPassFailCounts": {
+				"PM-02: HTTP status is 302": {
+					"pass": 1,
+					"fail": 0
+				},
+				"PM-02: Redirects to student records": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				19
+			],
+			"allTests": [
+				{
+					"PM-02: HTTP status is 302": true,
+					"PM-02: Redirects to student records": true
+				}
+			]
+		},
+		{
+			"id": "38847597-668c-4581-82e6-202563736ae8",
+			"name": "PM-03 - Update Student",
+			"url": "http://localhost:8080/students/24P-3102/update",
+			"time": 13,
+			"responseCode": {
+				"code": 302,
+				"name": "Found"
+			},
+			"tests": {
+				"PM-03: HTTP status is 302": true,
+				"PM-03: Redirects to student records": true
+			},
+			"testPassFailCounts": {
+				"PM-03: HTTP status is 302": {
+					"pass": 1,
+					"fail": 0
+				},
+				"PM-03: Redirects to student records": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"PM-03: HTTP status is 302": true,
+					"PM-03: Redirects to student records": true
+				}
+			]
+		},
+		{
+			"id": "14c4cc4e-cb08-40e5-a4cf-14aad6718598",
+			"name": "PM-04 - Delete Student",
+			"url": "http://localhost:8080/students/24P-3102/delete",
+			"time": 10,
+			"responseCode": {
+				"code": 302,
+				"name": "Found"
+			},
+			"tests": {
+				"PM-04: HTTP status is 302": true,
+				"PM-04: Redirects to student records": true
+			},
+			"testPassFailCounts": {
+				"PM-04: HTTP status is 302": {
+					"pass": 1,
+					"fail": 0
+				},
+				"PM-04: Redirects to student records": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"PM-04: HTTP status is 302": true,
+					"PM-04: Redirects to student records": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 55,
+	"collection": {
+		"requests": [
+			{
+				"id": "8e00b22a-64d7-4f99-bcd4-f5f6a9e945e2",
+				"method": "GET"
+			},
+			{
+				"id": "18b19b97-21a9-47df-aa12-ae703fad4d34",
+				"method": "POST"
+			},
+			{
+				"id": "38847597-668c-4581-82e6-202563736ae8",
+				"method": "PUT"
+			},
+			{
+				"id": "14c4cc4e-cb08-40e5-a4cf-14aad6718598",
+				"method": "DELETE"
+			}
+		]
+	}
+}
