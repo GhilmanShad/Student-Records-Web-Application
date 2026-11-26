@@ -96,14 +96,19 @@ public class StudentController {
     }
 
     @PostMapping("/students/{regNo}/delete")
-    public String deleteStudent(@PathVariable("regNo") String regNo, Model model) {
+    public String deleteStudent(
+            @PathVariable("regNo") String regNo,
+            RedirectAttributes redirectAttributes) {
+
         try {
-        service.deleteStudent(regNo);
+            service.deleteStudent(regNo);
+            redirectAttributes.addFlashAttribute(
+                "success", "Student deleted successfully.");
+        } catch (IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute(
+                "error", ex.getMessage());
         }
-        catch (IllegalArgumentException ex) {
-            model.addAttribute("regNo", regNo);
-            return "student-details";
-        }
+
         return "redirect:/students";
     }
 

@@ -36,6 +36,12 @@
          th:text="${success}">
     </div>
 
+    <div class="error-notification"
+         role="alert"
+         th:if="${error}"
+         th:text="${error}">
+    </div>
+
     <section class="panel" aria-labelledby="records">
       <div class="toolbar">
         <div class="records-heading">
