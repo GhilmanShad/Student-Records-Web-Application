@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "ba138a9d-1417-4f0b-bf20-33eef5d7b88b",
+		"name": "SQE Assignment-3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "60446794",
+		"_collection_link": "https://ghilmanali20050905-753906.postman.co/workspace/SQE-Assignment-3's-Workspace~f468f48e-015b-41c5-8527-ba8a41621efb/collection/60446794-ba138a9d-1417-4f0b-bf20-33eef5d7b88b?action=share&source=collection_link&creator=60446794"
+	},
+	"item": [
+		{
+			"name": "PM-1 - Student Not Found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"PM-01: HTTP status is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"PM-01: No matching student found\", function () {",
+							"    pm.expect(pm.response.text())",
+							"        .to.include(\"No students found.\");",
+							"});",
+							"",
+							"pm.test(\"PM-01: Response is HTML\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\"))",
+							"        .to.include(\"text/html\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/students?keyword=SQE-NO-MATCH-99999",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "SQE-NO-MATCH-99999"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PM-2 - Create Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"PM-02: HTTP status is 302\", function () {",
+							"    pm.response.to.have.status(302);",
+							"});",
+							"",
+							"pm.test(\"PM-02: Redirects to student records\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Location\"))",
+							"        .to.equal(\"/students\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "regNo",
+							"value": "24P-3102",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Ahmed Raza",
+							"type": "text"
+						},
+						{
+							"key": "department",
+							"value": "SE",
+							"type": "text"
+						},
+						{
+							"key": "cgpa",
+							"value": "3.45",
+							"type": "text"
+						},
+						{
+							"key": "_csrf",
+							"value": "{{sqeFreshCsrfToken}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PM-03 - Update Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"PM-03: HTTP status is 302\", function () {",
+							"    pm.response.to.have.status(302);",
+							"});",
+							"",
+							"pm.test(\"PM-03: Redirects to student records\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Location\"))",
+							"        .to.equal(\"/students\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": false
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "{{sqeFreshCsrfToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "regNo",
+							"value": "24P-3102",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Ahmed Raza",
+							"type": "text"
+						},
+						{
+							"key": "department",
+							"value": "CS",
+							"type": "text"
+						},
+						{
+							"key": "cgpa",
+							"value": "3.80",
+							"type": "text"
+						},
+						{
+							"key": "_csrf",
+							"value": "\t{{sqeFreshCsrfToken}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/students/24P-3102/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students",
+						"24P-3102",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PM-04 - Delete Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"PM-04: HTTP status is 302\", function () {",
+							"    pm.response.to.have.status(302);",
+							"});",
+							"",
+							"pm.test(\"PM-04: Redirects to student records\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Location\"))",
+							"        .to.equal(\"/students\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": false
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "{{sqeFreshCsrfToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/students/24P-3102/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"students",
+						"24P-3102",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "csrfToken",
+			"value": ""
+		}
+	]
+}
