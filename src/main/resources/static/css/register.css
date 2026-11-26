@@ -121,3 +121,14 @@ summary { color: #933d33; cursor: pointer; }
     font-size: 14px;
     font-weight: 500;
 }
+
+.error-notification {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
